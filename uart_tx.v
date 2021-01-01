@@ -24,49 +24,54 @@
 //  Objective:    Acts as a UART transmitter, converting 8 bit parallel data to 
 //                serial, at user-selected baud rate.
 //
-//  Assumptions:  Data format is 8N1
-//                50 MHz clock
-//                No clock domain crossing accomodate for, though a synchronizer
-//                 is included on the trigger input.  See comment below.
-//                Development done on Terasic DE10-Lite board with Altera MAX10 FPGA
+//  Assumptions:  - Data format is 8N1
+//                - 50 MHz input clock
+//                - No clock domain crossings accomodated for, though a synchronizer
+//                  is included on the trigger input.  ** See comments below. **
+//                - Development done on Terasic DE10-Lite board with Altera MAX10 FPGA
 //
 //                NOTE!!! -- If this module were used in an actual situation 
-//                with true clock domain crossings, more attention (i.e. code 
-//                changes) would be necessary to manage the clock domain 
-//                crossings.
+//                with clock domain crossings or asynchronous inputs, 
+//                more attention (i.e. code changes) would be necessary to manage 
+//                the situation.
 //
 //  Notes:        Transmits 8 bits of data, plus start and stop bit, with no
 //                parity bit, at the selected baud rate.  This is, often
 //                refered to as "8N1" - 8 data bits, no parity, 1 stop bit.  
-//                Start bit is not referred to in that designation since all
-//                UART transmissions begin with a start bit so the receiving 
-//                module can detect that a transmission is coming and begin
-//                sampling the incoming bitstream.
 //
 //                Baud rate is selectable via a localparam.  Explanation of
 //                the calculation and values for a number of common baud rates
 //                are found in the comments elsewhere in this file.  Other 
 //                baud rates can of course be used, but have not been tested.
 // 
-//                Trigger signal begins a transmission.  Data byte is also
-//                latched at trigger event to ensure inadvertent modification
-//                of the data byte by the parent module during the transmission
-//                has no averse effect on the serial data stream being
-//                trnamsitted.
+//                The trigger signal begins a transmission.  The data byte is also
+//                latched at the trigger event to ensure that if the parent module
+//                modifies the data byte during the transmission, it
+//                has no averse effect on the transmission already in progress.
 //
-//                NOTE!!! -- this syncronizer creates latency between assertion
-//                of the trigger_raw input and actual initiation of the tranmission.
+//                NOTE!!! -- There is a synchronizer included on the 
+//                trigger input.  If this module is being used with an 
+//                asynchronous trigger input or certain types of clock domain 
+//                crossings, this can help with avoiding metastability.  
+//
+//                NOTE!!! -- If this module were used in an actual situation with
+//                clock domain crossings or asynchronous inputs, 
+//                more attention (i.e. code changes) would be necessary to 
+//                manage the situation.
+//
+//                This synchronizer creates latency between assertion of the 
+//                trigger_raw input and actual initiation of the transmission.
 //                Monitoring the "busy" signal during this latency must be
 //                done with care since monitoring too early could appear
 //                that the transmission is complete (i.e. not busy) even though
 //                it has not begun yet due to the synchronizer latency.
 //                See the tester module "uart_tx_tester.v" for an example
-//                of how this is managed using an short extended HIGH time
+//                of how this is managed using a short stretched HIGH time
 //                for the trigger signal before polling the busy signal.
 //
-//                Busy signal indicates when a transmission is in progress.
+//                The busy signal indicates when a transmission is in progress.
 //                This is useful to throttle the parent module that is 
-//                sending data to this module, since asynchronous serial
+//                sending data to this module, since UART serial
 //                rates are typically slow by present day standards.
 //
 //                Post transmission an additional delay is performed in
@@ -255,14 +260,15 @@ always @(posedge clk_50M) begin
 end
 
 //     
-// Synchronizer for trigger input.  Ideally this should not be necessary,
-// but in case this module is being used with an asynchrnous trigger input, 
-// this helps with avoiding metastability.  
+// Synchronizer for trigger input.  If this module is being used with an 
+// asynchronous trigger input or certain types of clock domain
+// crossings, this can help with avoiding metastability.  
 //
 //
-// NOTE!!! -- If this module were used in an actual situation with true 
-//            clock domain crossings, more attention (i.e. code changes) 
-//            would be necessary to manage the clock domain crossings.
+// NOTE!!! -- If this module were used in an actual situation with
+//            clock domain crossings or asynchronous inputs, 
+//            more attention (i.e. code changes) would be necessary to 
+//            manage the situation.
 //                  
 //
 // Visual depiction of the "double flop" synchronizer below:
@@ -275,8 +281,8 @@ end
 //                   |                     |
 //    clk ---------------------------------'
 //
-// NOTE!!!  -- this syncronizer creates latency between assertion of the
-//             trigger_raw input and actual initiation of the tranmission.
+// NOTE!!!  -- This synchronizer creates latency between assertion of the
+//             trigger_raw input and actual initiation of the transmission.
 //
 
 always @(posedge clk_50M) begin
