@@ -9,11 +9,20 @@ For Verilog beginners, the project has examples of simple finite state machines,
 
 See more detail on my website at http://ganslermike.com/?page_id=1619
 
+
 <p align="center">
+Schematic file showing connection between a tester module and the actual UART trasnmitter module (both coded in Verilog):
+   
    <img src="images/uart tx top level entity schematic.PNG" height="300" align="center">
 </p>
 
+
+
+
+
 <p align="center">
+Tester module sends this message to the UART transmitter module every few seconds, with bytes paced by the busy flag:
+   
    <img src="images/uart tx logic analyzer full message (ascii and bin).png" height="300" align="center">
 </p>
         
