@@ -179,10 +179,11 @@ always @(posedge clk_50M) begin
          
             data_aug <= {1'b1, data_raw[7:0], 1'b0};   // Create augmented byte with start and stop bits, note that the order
                                                        //   is: STOP bit, data MSB to LSB, START bit.   
-                                                       //   shift data out then from LSB to MSB of this 10 bit word will
-                                                       //   create a data stream that adheres the common convention
-                                                       //   of the shift the dta out LSB first
-                                                       // This also has the benfit of latching in the data at the instant
+                                                       //   Shifting this 10 bit word out then from LSB to MSB will
+                                                       //   create a data stream that has the START and STOP bits in the 
+                                                       //   correct location and adheres the common convention
+                                                       //   of the shifting the data byte out "reversed", i.e. LSB first.
+                                                       // This also has the benefit of latching in the data at the instant
                                                        // this module is triggered.  As a result, if the parent module were 
                                                        // to change data_raw while this module is still shifting out the bits,
                                                        // this module would not be adversely affected.
