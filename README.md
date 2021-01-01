@@ -13,7 +13,7 @@ See more detail on my website at http://ganslermike.com/?page_id=1619
 
 <p align="center">
    Schematic file showing connection between tester module and the UART transmitter module (both coded in Verilog):
-   <br>
+   <br> <br>
    <img src="images/uart tx top level entity schematic.PNG" height="300" align="center">
 </p>
 
@@ -21,7 +21,7 @@ See more detail on my website at http://ganslermike.com/?page_id=1619
 
 <p align="center">
    Tester module sends this message to the UART transmitter module every few seconds, with bytes paced by the busy flag:
-   <br>
+   <br> <br>
    <img src="images/uart tx logic analyzer full message (ascii and bin).png" height="300" align="center">
 </p>
         
