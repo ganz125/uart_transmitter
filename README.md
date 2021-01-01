@@ -7,7 +7,9 @@ I developed this on a [Terasic DE10-Lite board](https://www.terasic.com.tw/cgi-b
 
 For Verilog beginners, the project has examples of simple finite state machines, case statements, concatenation, a synchronizer or two, localparams, module instantiation “by name”, and a synthesizable test module.
 
-See more detail on my website at http://ganslermike.com/?page_id=1619
+Check out the comments in the source code for lots more detail.
+
+Also more info at my website: http://ganslermike.com/?page_id=1619
 
 ---
 
