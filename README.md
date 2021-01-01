@@ -12,7 +12,7 @@ See more detail on my website at http://ganslermike.com/?page_id=1619
 ---
 
 <p align="center">
-   Schematic file showing connection between a tester module and the actual UART trasnmitter module (both coded in Verilog):
+   Schematic file showing connection between tester module and the UART transmitter module (both coded in Verilog):
    <img src="images/uart tx top level entity schematic.PNG" height="300" align="center">
 </p>
 
