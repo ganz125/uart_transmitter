@@ -52,16 +52,16 @@ module uart_tx_tester
    output  reg          trigger           // Trigger to tell UART module to begin transmission
 );
 
-reg                     run_test_0 = 0;             // Synchronizer for 'start test' switch input
-reg                     run_test   = 0;             // Synchronizer for 'start test' switch input
+reg                     run_test_0   = 0;           // Synchronizer for 'start test' switch input
+reg                     run_test     = 0;           // Synchronizer for 'start test' switch input
 
 reg         [5:0]       tester_state = 0;           // FSM state variable
 
-reg        [31:0]       byte_index = (8*16)-1;      // Pointer to beginning of next byte to transmit in 16 byte message
+reg        [31:0]       byte_index   = (8*16)-1;    // Pointer to beginning of next byte to transmit in 16 byte message
 
-reg        [31:0]       pause_delay = 0;            // Counter for delay between re-transmissions of message
+reg        [31:0]       pause_delay  = 0;           // Counter for delay between re-transmissions of message
 
-reg         [5:0]       trigger_ctr = 0;            // Delay to hold trigger high, in clock cycles
+reg         [5:0]       trigger_ctr  = 0;           // Delay to hold trigger high, in clock cycles
 
                                  // Byte position:
                                  //
@@ -119,7 +119,7 @@ always @(posedge  clk_50M) begin
       //
       STATE_LOAD: begin
          
-         trigger      <= 1'b0;                          // Make sure trigger is LOW while setting data byte.
+         trigger      <= 1'b0;                       // Make sure trigger is LOW while setting data byte.
          data_out     <= byte_str[byte_index -:8];   // Set data byte to transmit.
          trigger_ctr  <= 6'd5;                       // Init counter which defines trigger HIGH time.
          tester_state <= STATE_TRIGGER;              // Move on to next state.
