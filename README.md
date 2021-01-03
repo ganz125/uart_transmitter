@@ -1,5 +1,5 @@
 # uart_transmitter
-UART transmitter for an FPGA in Verilog
+FPGA implementation of a UART transmitter in Verilog
 
 This is a short Verilog project intended for use in other larger projects for communications or debugging. It implements a UART transmitter at a selectable baud rate, with the common “8N1” (8 data bits, no parity, 1 stop bit) format.
 
